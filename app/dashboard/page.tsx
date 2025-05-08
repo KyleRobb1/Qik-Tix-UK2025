@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSupabase } from '../context/SupabaseContext';
-import QRCode from 'qrcode.react';
 
 interface Ticket {
   id: string;
@@ -19,33 +18,40 @@ interface Ticket {
 }
 
 const DashboardPage: React.FC = () => {
-  const { session, loading, supabase } = useSupabase();
+  const { session, supabase } = useSupabase();
   const router = useRouter();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    if (!loading && !session) {
+    if (!session) {
       router.push('/');
-    }
-    if (session) {
+    } else {
       fetchTickets();
     }
     // eslint-disable-next-line
-  }, [loading, session]);
+  }, [session]);
 
   const fetchTickets = async () => {
+    if (!session) return;
     setFetching(true);
     const { data, error } = await supabase
       .from('tickets')
       .select('id, event_id, user_id, event:events(id, title, date, location, price, image_url)')
       .eq('user_id', session.user.id)
       .order('id', { ascending: false });
-    if (!error && data) setTickets(data);
+    if (!error && data) {
+      setTickets(
+        data.map((ticket: any) => ({
+          ...ticket,
+          event: Array.isArray(ticket.event) ? ticket.event[0] : ticket.event,
+        }))
+      );
+    }
     setFetching(false);
   };
 
-  if (loading || fetching) {
+  if (fetching) {
     return <div className="flex justify-center items-center h-64">Loading...</div>;
   }
 
@@ -76,7 +82,6 @@ const DashboardPage: React.FC = () => {
                   <div className="text-primary font-bold">{ticket.event.price === 0 ? 'Free' : `£${ticket.event.price.toFixed(2)}`}</div>
                 </div>
                 <div className="flex flex-col items-center">
-                  <QRCode value={`https://qiktix.uk/ticket/${ticket.id}`} size={96} />
                   <span className="text-xs text-gray-500 mt-2">Ticket ID: {ticket.id}</span>
                 </div>
               </div>
