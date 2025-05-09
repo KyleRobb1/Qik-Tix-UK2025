@@ -1,15 +1,30 @@
-export default function ContactPage() {
-  return (
-    <main className="max-w-2xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-4 text-primary">Contact Us</h1>
-      <p className="text-lg text-gray-700 mb-4">
-        Have questions, feedback, or need support? Reach out to the QikTix UK team!
-      </p>
-      <ul className="text-gray-600 mb-4">
-        <li>Email: <a href="mailto:support@qiktix.uk" className="text-primary underline">support@qiktix.uk</a></li>
-        <li>Twitter: <a href="https://twitter.com/qiktixuk" className="text-primary underline">@qiktixuk</a></li>
-      </ul>
-      <p className="text-gray-500">We aim to respond to all inquiries within 24 hours.</p>
-    </main>
-  );
-} 
+import React from 'react';
+
+const ContactPage = () => (
+  <div className="max-w-2xl mx-auto py-10 px-4">
+    <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
+    <p className="mb-6">Have a question or need support? Fill out the form below or reach us directly at <a href="mailto:support@qiktix.co.uk" className="text-primary underline">support@qiktix.co.uk</a>.</p>
+    <form className="space-y-4">
+      <div>
+        <label className="block mb-1 font-semibold">Name</label>
+        <input type="text" className="w-full border rounded px-3 py-2" placeholder="Your Name" required />
+      </div>
+      <div>
+        <label className="block mb-1 font-semibold">Email</label>
+        <input type="email" className="w-full border rounded px-3 py-2" placeholder="you@email.com" required />
+      </div>
+      <div>
+        <label className="block mb-1 font-semibold">Message</label>
+        <textarea className="w-full border rounded px-3 py-2" rows={5} placeholder="How can we help?" required></textarea>
+      </div>
+      <button type="submit" className="bg-primary text-white px-6 py-2 rounded font-semibold hover:bg-primary-700 transition-colors duration-200">Send Message</button>
+    </form>
+    <div className="mt-8">
+      <h2 className="text-xl font-semibold mb-2">Company Details</h2>
+      <p>QikTix UK Ltd.<br />123 Event Lane<br />Edinburgh, EH1 2AB<br />United Kingdom</p>
+      <p className="mt-2">Email: <a href="mailto:support@qiktix.co.uk" className="text-primary underline">support@qiktix.co.uk</a></p>
+    </div>
+  </div>
+);
+
+export default ContactPage; 
