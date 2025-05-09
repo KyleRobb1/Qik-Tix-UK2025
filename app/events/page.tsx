@@ -45,7 +45,7 @@ const EventsPage: React.FC = () => {
               <p className="text-gray-500 mb-1 text-sm">{new Date(event.date).toLocaleDateString()}</p>
               <p className="text-gray-500 mb-1 text-sm">{event.location}</p>
               <p className="text-primary font-bold text-lg">
-                {typeof event.price === 'number' ? (event.price === 0 ? 'Free' : `£${event.price.toFixed(2)}`) : 'N/A'}
+                {typeof event.price === 'number' ? (event.price === 0 ? 'Free' : `£${event.price.toFixed(2)}`) : (event.price == null ? 'Free' : 'N/A')}
               </p>
             </div>
           </Link>
